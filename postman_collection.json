@@ -1,0 +1,159 @@
+{
+    "info": {
+      "name": "Identity Reconciliation API",
+      "description": "Test cases for the identity reconciliation service",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Health Check",
+        "request": {
+          "method": "GET",
+          "url": {
+            "raw": "{{baseUrl}}/",
+            "host": ["{{baseUrl}}"]
+          },
+          "description": "Check if the server is running"
+        }
+      },
+      {
+        "name": "Identify - New Contact",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "url": {
+            "raw": "{{baseUrl}}/api/identify",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "identify"]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\":\"lorraine@hillvalley.edu\",\"phoneNumber\":\"123456\"}"
+          },
+          "description": "Create a new primary contact"
+        }
+      },
+      {
+        "name": "Identify - Create Secondary Contact",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "url": {
+            "raw": "{{baseUrl}}/api/identify",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "identify"]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\":\"mcfly@hillvalley.edu\",\"phoneNumber\":\"123456\"}"
+          },
+          "description": "Create a secondary contact linked to existing primary"
+        }
+      },
+      {
+        "name": "Identify - Email Only",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "url": {
+            "raw": "{{baseUrl}}/api/identify",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "identify"]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\":\"lorraine@hillvalley.edu\"}"
+          },
+          "description": "Identify using only email"
+        }
+      },
+      {
+        "name": "Identify - Phone Only",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "url": {
+            "raw": "{{baseUrl}}/api/identify",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "identify"]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{\"phoneNumber\":\"123456\"}"
+          },
+          "description": "Identify using only phone number"
+        }
+      },
+      {
+        "name": "Identify - Invalid Request",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "url": {
+            "raw": "{{baseUrl}}/api/identify",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "identify"]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{}"
+          },
+          "description": "Test validation - missing both email and phone"
+        }
+      },
+      {
+        "name": "Identify - Invalid Email Format",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "url": {
+            "raw": "{{baseUrl}}/api/identify",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "identify"]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\":\"invalid-email\",\"phoneNumber\":\"123456\"}"
+          },
+          "description": "Test validation - invalid email format"
+        }
+      }
+    ],
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:5000",
+        "type": "string"
+      }
+    ]
+  }
