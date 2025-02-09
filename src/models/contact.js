@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       phoneNumber: {
         type: DataTypes.STRING,
-        allowNull: true, // Changed to true since either phone or email can be null
+        allowNull: true,
         validate: {
           customValidator(value) {
             if (!value && !this.email) {
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: true, // Changed to true since either phone or email can be null
+        allowNull: true,
         validate: {
           isEmail: true,
           customValidator(value) {
