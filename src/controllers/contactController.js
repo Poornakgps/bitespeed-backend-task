@@ -10,7 +10,6 @@ class ContactController {
         return res.status(400).json({ error: "Either email or phoneNumber is required" });
       }
 
-      // Find all contacts with matching email or phoneNumber
       const existingContacts = await Contact.findAll({
         where: {
           [Op.or]: [
@@ -21,7 +20,6 @@ class ContactController {
         order: [['createdAt', 'ASC']]
       });
 
-      // If no contacts exist, create a new primary contact
       if (existingContacts.length === 0) {
         const newContact = await Contact.create({
           email,
@@ -39,15 +37,12 @@ class ContactController {
         });
       }
 
-      // Fetch all related contacts, ensuring all links are included
       const allRelatedContacts = await ContactController.findAllRelatedContacts(existingContacts);
 
-      // Determine the primary contact (oldest)
       const primaryContact = allRelatedContacts.reduce((oldest, current) => 
         oldest.createdAt < current.createdAt ? oldest : current
       );
 
-      // Check if this contact information is already recorded
       const existingEntry = await Contact.findOne({
         where: {
           email: email || null,
@@ -63,17 +58,14 @@ class ContactController {
           linkPrecedence: "secondary"
         });
 
-        // Refresh contacts list after adding new secondary contact
         allRelatedContacts.push(await Contact.findOne({
           where: { email, phoneNumber },
           order: [['createdAt', 'DESC']]
         }));
       }
 
-      // Consolidate all contacts under the primary ID
       await ContactController.consolidateContacts(primaryContact.id, allRelatedContacts);
 
-      // Format the final response
       const response = await ContactController.formatResponse(primaryContact.id);
       return res.json(response);
 
@@ -95,7 +87,6 @@ class ContactController {
       visited.add(contact.id);
       allRelated.push(contact);
 
-      // Find related contacts through email, phoneNumber, or linkedId
       const relatedContacts = await Contact.findAll({
         where: {
           [Op.or]: [
