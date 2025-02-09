@@ -51,11 +51,6 @@ You can test the API endpoints using Postman or `curl`.
 3. Select the desired API request from the collection.
 4. Click **Send** to test the API.
 
-### Testing with `curl`
-```sh
-curl -X GET http://localhost:5000/api/identify
-```
-
 ## Stopping the Application
 To stop the containers, run:
 ```sh
